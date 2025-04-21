@@ -75,4 +75,15 @@ public class ProjectController {
             return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
         }
     }
+
+    @GetMapping("search/{keyword}")
+    public ResponseEntity<List<Project>> searchForProject(@PathVariable String keyword){
+        String userEmail = SecurityContextHolder.getContext().getAuthentication().getName();
+        try {
+            List<Project> projects = projectService.searchProjectByName(keyword, userEmail);
+            return new ResponseEntity<>(projects, HttpStatus.OK);
+        } catch (Exception e) {
+            return new ResponseEntity<>(HttpStatus.BAD_REQUEST);
+        }
+    }
 }

@@ -31,6 +31,7 @@ public class ProjectServiceImpl implements ProjectService{
 
         Project newProject = new Project();
         newProject.setName(project.getName());
+        newProject.setDescription(project.getDescription());
         newProject.setCategory(project.getCategory());
         newProject.setTags(project.getTags());
         newProject.setOwner(user);
@@ -80,7 +81,7 @@ public class ProjectServiceImpl implements ProjectService{
             User user = userService.findByEmail(userEmail);
             if(project.getOwner().getId() == user.getId()){
                 projectRepo.deleteById(projectId);
-                userService.updateUserProjectSize(user, 1);
+                userService.updateUserProjectSize(user, -1);
                 return;
             }
             throw new Exception("Unauthorized user to delete project");
